@@ -10,7 +10,7 @@
 ## 安装
 
 ```bash
-composer require myt/php-sdk
+composer require prowendi/myt-php-sdk
 ```
 
 ## 快速开始
