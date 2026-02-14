@@ -1,0 +1,35 @@
+{
+  "name": "myt/php-sdk",
+  "description": "MYT OpenAPI PHP SDK for Swoole/Hyperf 3.1",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.1",
+    "guzzlehttp/guzzle": "^7.8",
+    "psr/container": "^1.1 || ^2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "suggest": {
+    "hyperf/guzzle": "Use Hyperf CoroutineHandler in Swoole/Hyperf runtime",
+    "hyperf/pool": "Optional: manage Guzzle client pools in Hyperf"
+  },
+  "autoload": {
+    "psr-4": {
+      "Myt\\PhpSdk\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Myt\\PhpSdk\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "hyperf": {
+      "config": "Myt\\PhpSdk\\Hyperf\\ConfigProvider"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
