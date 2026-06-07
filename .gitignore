@@ -1,2 +1,31 @@
+# Composer
 /vendor/
+composer.lock
+
+# PHPUnit
 /.phpunit.result.cache
+/.phpunit.cache/
+/phpunit.xml
+
+# Python tooling (tools/*.py helpers)
+__pycache__/
+*.py[cod]
+
+# Editors / IDEs
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Local agent / assistant tooling
+/.omc/
+/.claude/
+
+# Build & logs
+/build/
+*.log

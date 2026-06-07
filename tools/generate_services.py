@@ -22,11 +22,15 @@ TAG_TO_CLASS = {
     "基本信息": "InfoService",
     "终端": "TerminalService",
     "大模型管理": "LlmService",
+    "M50管理": "M50Service",
     "macVlan网卡管理": "MacVlanService",
     "myt_bridge网卡管理": "MytBridgeService",
+    "iSCSI磁盘管理": "IscsiService",
     "魔云腾VPC": "VpcService",
     "本地机型数据管理": "PhoneModelService",
+    "RPA自动化": "RpaService",
     "服务": "ServerService",
+    "用户": "UserService",
 }
 
 
@@ -58,7 +62,7 @@ def required_from_schema(schema: dict, schemas: dict) -> list[str]:
     return [str(x) for x in schema.get("required", [])]
 
 
-def build_services(spec: dict) -> dict[str, list[dict]]:
+def build_services(spec: dict, skipped: list | None = None) -> dict[str, list[dict]]:
     schemas = spec.get("components", {}).get("schemas", {})
     services: dict[str, list[dict]] = defaultdict(list)
 
@@ -70,6 +74,8 @@ def build_services(spec: dict) -> dict[str, list[dict]]:
             tag = (operation.get("tags") or ["Default"])[0]
             class_name = TAG_TO_CLASS.get(tag)
             if class_name is None:
+                if skipped is not None:
+                    skipped.append((tag, http_method.upper(), path))
                 continue
 
             summary = (operation.get("summary") or "").replace("*/", "* /")
@@ -196,17 +202,30 @@ def main() -> int:
         return 1
 
     spec = json.loads(openapi_path.read_text(encoding="utf-8"))
-    services = build_services(spec)
+    skipped: list[tuple[str, str, str]] = []
+    services = build_services(spec, skipped)
 
     target_dir = Path("src/Service")
     target_dir.mkdir(parents=True, exist_ok=True)
 
     for class_name, operations in sorted(services.items()):
         content = render_service(class_name, operations)
-        (target_dir / f"{class_name}.php").write_text(content, encoding="utf-8")
+        (target_dir / f"{class_name}.php").write_text(content, encoding="utf-8", newline="\n")
 
     total = sum(len(ops) for ops in services.values())
     print(f"Generated {len(services)} services and {total} operations")
+
+    if skipped:
+        tags = sorted({t for t, _, _ in skipped})
+        print()
+        print(f"!! WARNING: {len(skipped)} operation(s) were SKIPPED — their tag is not")
+        print("!! mapped in TAG_TO_CLASS, so NO code was generated for them:")
+        for tag in tags:
+            ops = [f"{m} {p}" for t, m, p in skipped if t == tag]
+            print(f"!!   tag {tag!r}: {len(ops)} op(s) -> {ops}")
+        print("!! Add these tags to TAG_TO_CLASS and re-run so nothing is missing.", file=sys.stderr)
+        return 2
+
     return 0
 
 

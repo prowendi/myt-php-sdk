@@ -105,6 +105,28 @@ final class AndroidService extends AbstractService
     }
 
     /**
+     * 批量切换容器镜像
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postAndroidChangeImage(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/android/change-image', $body, $options, ['containerNames', 'image']);
+    }
+
+    /**
+     * 复制云机
+     * @param array<string, mixed> $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function getAndroidCopy(array $query = [], array $options = []): array|string
+    {
+        return $this->requestWithQuery('GET', '/android/copy', $query, $options, ['name']);
+    }
+
+    /**
      * 获取国家代码列表
      * @param array<string, mixed> $options
      * @return array<string, mixed>|string
@@ -134,6 +156,17 @@ final class AndroidService extends AbstractService
     public function postAndroidExport(array $body = [], array $options = []): array|string
     {
         return $this->requestWithJson('POST', '/android/export', $body, $options, ['name']);
+    }
+
+    /**
+     * 导出安卓云机到共享存储
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postAndroidExportToOss(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/android/exportToOss', $body, $options, ['name', 'ossUrl', 'bucket']);
     }
 
     /**
@@ -225,14 +258,36 @@ final class AndroidService extends AbstractService
     }
 
     /**
-     * 设置Macvlan
+     * 通过URL导入安卓云机
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postAndroidImportByUrl(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/android/importByUrl', $body, $options, ['url']);
+    }
+
+    /**
+     * macvlan模式下，设置云机容器的IP
      * @param array<string, mixed> $body
      * @param array<string, mixed> $options
      * @return array<string, mixed>|string
      */
     public function postAndroidMacvlan(array $body = [], array $options = []): array|string
     {
-        return $this->requestWithJson('POST', '/android/macvlan', $body, $options, ['gw', 'subnet']);
+        return $this->requestWithJson('POST', '/android/macvlan', $body, $options, ['name', 'ip']);
+    }
+
+    /**
+     * 移动云机到指定实例位
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postAndroidMove(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/android/move', $body, $options, ['name']);
     }
 
     /**
@@ -331,5 +386,16 @@ final class AndroidService extends AbstractService
     public function postAndroidSwitchModel(array $body = [], array $options = []): array|string
     {
         return $this->requestWithJson('POST', '/android/switchModel', $body, $options, ['name']);
+    }
+
+    /**
+     * 查询指定任务进度
+     * @param array<string, mixed> $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function getAndroidTaskStatus(array $query = [], array $options = []): array|string
+    {
+        return $this->requestWithQuery('GET', '/android/task-status', $query, $options, ['taskId']);
     }
 }

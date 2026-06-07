@@ -18,6 +18,17 @@ final class VpcService extends AbstractService
     }
 
     /**
+     * 编辑VPC节点
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function putMytVpc(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('PUT', '/mytVpc', $body, $options, ['vpcID']);
+    }
+
+    /**
      * 指定云机VPC节点
      * @param array<string, mixed> $body
      * @param array<string, mixed> $options
@@ -69,6 +80,103 @@ final class VpcService extends AbstractService
     public function postMytVpcDelRuleBatch(array $body = [], array $options = []): array|string
     {
         return $this->requestWithJson('POST', '/mytVpc/delRule/batch', $body, $options, ['name']);
+    }
+
+    /**
+     * 清除容器域名直连
+     * @param array<string, mixed> $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function deleteMytVpcDomainDirect(array $query = [], array $options = []): array|string
+    {
+        return $this->requestWithQuery('DELETE', '/mytVpc/domainDirect', $query, $options, ['containerID']);
+    }
+
+    /**
+     * 查询容器域名直连
+     * @param array<string, mixed> $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function getMytVpcDomainDirect(array $query = [], array $options = []): array|string
+    {
+        return $this->requestWithQuery('GET', '/mytVpc/domainDirect', $query, $options, ['containerID']);
+    }
+
+    /**
+     * 设置容器域名直连
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postMytVpcDomainDirect(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/mytVpc/domainDirect', $body, $options, ['containerID', 'domains']);
+    }
+
+    /**
+     * 清除容器域名过滤
+     * @param array<string, mixed> $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function deleteMytVpcDomainFilter(array $query = [], array $options = []): array|string
+    {
+        return $this->requestWithQuery('DELETE', '/mytVpc/domainFilter', $query, $options, ['containerID']);
+    }
+
+    /**
+     * 查询容器域名过滤
+     * @param array<string, mixed> $query
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function getMytVpcDomainFilter(array $query = [], array $options = []): array|string
+    {
+        return $this->requestWithQuery('GET', '/mytVpc/domainFilter', $query, $options, ['containerID']);
+    }
+
+    /**
+     * 设置容器域名过滤
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postMytVpcDomainFilter(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/mytVpc/domainFilter', $body, $options, ['containerID', 'domains']);
+    }
+
+    /**
+     * 清除全局域名过滤
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function deleteMytVpcDomainFilterGlobal(array $options = []): array|string
+    {
+        return $this->request('DELETE', '/mytVpc/domainFilter/global', $options);
+    }
+
+    /**
+     * 查询全局域名过滤
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function getMytVpcDomainFilterGlobal(array $options = []): array|string
+    {
+        return $this->request('GET', '/mytVpc/domainFilter/global', $options);
+    }
+
+    /**
+     * 设置全局域名过滤
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postMytVpcDomainFilterGlobal(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/mytVpc/domainFilter/global', $body, $options, ['domains']);
     }
 
     /**

@@ -12,12 +12,16 @@ use Myt\PhpSdk\Service\AndroidV2Service;
 use Myt\PhpSdk\Service\AuthService;
 use Myt\PhpSdk\Service\BackupService;
 use Myt\PhpSdk\Service\InfoService;
+use Myt\PhpSdk\Service\IscsiService;
 use Myt\PhpSdk\Service\LlmService;
+use Myt\PhpSdk\Service\M50Service;
 use Myt\PhpSdk\Service\MacVlanService;
 use Myt\PhpSdk\Service\MytBridgeService;
 use Myt\PhpSdk\Service\PhoneModelService;
+use Myt\PhpSdk\Service\RpaService;
 use Myt\PhpSdk\Service\ServerService;
 use Myt\PhpSdk\Service\TerminalService;
+use Myt\PhpSdk\Service\UserService;
 use Myt\PhpSdk\Service\VpcService;
 
 final class MytSdk
@@ -31,11 +35,15 @@ final class MytSdk
     private ?InfoService $infoService = null;
     private ?TerminalService $terminalService = null;
     private ?LlmService $llmService = null;
+    private ?M50Service $m50Service = null;
     private ?MacVlanService $macVlanService = null;
     private ?MytBridgeService $mytBridgeService = null;
+    private ?IscsiService $iscsiService = null;
     private ?VpcService $vpcService = null;
     private ?PhoneModelService $phoneModelService = null;
+    private ?RpaService $rpaService = null;
     private ?ServerService $serverService = null;
+    private ?UserService $userService = null;
 
     /**
      * @param array<string, mixed>|ClientConfig $config
@@ -90,6 +98,11 @@ final class MytSdk
         return $this->llmService ??= new LlmService($this->apiClient);
     }
 
+    public function m50(): M50Service
+    {
+        return $this->m50Service ??= new M50Service($this->apiClient);
+    }
+
     public function macVlan(): MacVlanService
     {
         return $this->macVlanService ??= new MacVlanService($this->apiClient);
@@ -98,6 +111,11 @@ final class MytSdk
     public function mytBridge(): MytBridgeService
     {
         return $this->mytBridgeService ??= new MytBridgeService($this->apiClient);
+    }
+
+    public function iscsi(): IscsiService
+    {
+        return $this->iscsiService ??= new IscsiService($this->apiClient);
     }
 
     public function vpc(): VpcService
@@ -110,8 +128,18 @@ final class MytSdk
         return $this->phoneModelService ??= new PhoneModelService($this->apiClient);
     }
 
+    public function rpa(): RpaService
+    {
+        return $this->rpaService ??= new RpaService($this->apiClient);
+    }
+
     public function server(): ServerService
     {
         return $this->serverService ??= new ServerService($this->apiClient);
+    }
+
+    public function user(): UserService
+    {
+        return $this->userService ??= new UserService($this->apiClient);
     }
 }

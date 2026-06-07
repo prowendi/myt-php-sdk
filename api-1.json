@@ -223,6 +223,10 @@
             "description": "随机系统文件名",
             "format": "bool",
             "type": "boolean"
+          },
+          "enforce": {
+            "format": "bool",
+            "type": "boolean"
           }
         },
         "type": "object"
@@ -472,6 +476,12 @@
             "description": "随机系统文件名",
             "format": "bool",
             "type": "boolean"
+          },
+          "enforce": {
+            "default": true,
+            "description": "安全模式，默认开启",
+            "format": "bool",
+            "type": "boolean"
           }
         },
         "required": [
@@ -515,6 +525,12 @@
             "description": "国家代码，例如CN，US",
             "format": "string",
             "type": "string"
+          },
+          "start": {
+            "default": true,
+            "description": "重置完成开机，默认开机",
+            "format": "bool",
+            "type": "boolean"
           }
         },
         "required": [
@@ -539,7 +555,7 @@
           "name"
         ],
         "type": "object",
-        "x-sort": "26"
+        "x-sort": "28"
       },
       "myt-sdk-go.api.android.v1.RemovePhoneModelBackupRes": {
         "properties": {},
@@ -548,7 +564,7 @@
       "myt-sdk-go.api.android.v1.GetPhoneModelBackupListReq": {
         "properties": {},
         "type": "object",
-        "x-sort": "25"
+        "x-sort": "27"
       },
       "myt-sdk-go.api.android.v1.GetPhoneModelBackupListRes": {
         "properties": {
@@ -597,7 +613,7 @@
           "suffix"
         ],
         "type": "object",
-        "x-sort": "27"
+        "x-sort": "29"
       },
       "myt-sdk-go.api.android.v1.SavePhoneModelBackupRes": {
         "properties": {},
@@ -615,7 +631,7 @@
           "name"
         ],
         "type": "object",
-        "x-sort": "28"
+        "x-sort": "30"
       },
       "myt-sdk-go.api.android.v1.ExportPhoneModelBackupRes": {
         "properties": {},
@@ -630,16 +646,81 @@
           }
         },
         "type": "object",
-        "x-sort": "29"
+        "x-sort": "31"
       },
       "myt-sdk-go.api.android.v1.ImportPhoneModelBackupRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.ChangeImageReq": {
+        "properties": {
+          "containerNames": {
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "image": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "containerNames",
+          "image"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.ChangeImageRes": {
+        "properties": {
+          "taskId": {
+            "format": "string",
+            "type": "string"
+          },
+          "message": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.AndroidContainerCopyReq": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "indexNum": {
+            "description": "实例序号，P1范围1-24，Q1范围1-12，要复制到的目标实例号",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "count": {
+            "description": "复制的数量，一次最大20个",
+            "format": "int",
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.AndroidContainerCopyRes": {
         "properties": {},
         "type": "object"
       },
       "myt-sdk-go.api.android.v1.GetCountryCodeListReq": {
         "properties": {},
         "type": "object",
-        "x-sort": "21"
+        "x-sort": "23"
       },
       "myt-sdk-go.api.android.v1.GetCountryCodeListRes": {
         "properties": {
@@ -697,7 +778,7 @@
           "command"
         ],
         "type": "object",
-        "x-sort": "30"
+        "x-sort": "32"
       },
       "myt-sdk-go.api.android.v1.AndroidContainerExecRes": {
         "properties": {},
@@ -719,6 +800,52 @@
       "myt-sdk-go.api.android.v1.ExportAndroidContainerRes": {
         "properties": {
           "exportName": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.ExportAndroidContainerToOssReq": {
+        "properties": {
+          "name": {
+            "description": "要导出的云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "ossUrl": {
+            "description": "共享存储地址，例如http://192.168.1.100:8080",
+            "format": "string",
+            "type": "string"
+          },
+          "bucket": {
+            "description": "存储桶名称",
+            "format": "string",
+            "type": "string"
+          },
+          "filePath": {
+            "description": "文件存储路径，例如backups/container.tar.gz，不填则自动生成",
+            "format": "string",
+            "type": "string"
+          },
+          "accessKey": {
+            "description": "访问密钥(private Bucket时必填)",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "ossUrl",
+          "bucket"
+        ],
+        "type": "object",
+        "x-sort": "21"
+      },
+      "myt-sdk-go.api.android.v1.ExportAndroidContainerToOssRes": {
+        "properties": {
+          "url": {
+            "description": "备份文件下载地址",
             "format": "string",
             "type": "string"
           }
@@ -954,34 +1081,100 @@
         },
         "type": "object"
       },
-      "myt-sdk-go.api.android.v1.SetMacvlanReq": {
+      "myt-sdk-go.api.android.v1.ImportAndroidContainerByUrlReq": {
         "properties": {
-          "gw": {
-            "description": "网关，例如192.168.100.1",
+          "url": {
+            "description": "备份包直链地址，仅支持http/https",
             "format": "string",
             "type": "string"
           },
-          "subnet": {
-            "description": "掩码，例如192.168.100.0/24",
+          "indexNum": {
+            "description": "实例序号，P1范围1-24，Q1范围1-12",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "name": {
+            "description": "导入后云机名称",
             "format": "string",
             "type": "string"
           }
         },
         "required": [
-          "gw",
-          "subnet"
+          "url"
         ],
         "type": "object",
-        "x-sort": "22"
+        "x-sort": "20"
       },
-      "myt-sdk-go.api.android.v1.SetMacvlanRes": {
+      "myt-sdk-go.api.android.v1.ImportAndroidContainerByUrlRes": {
+        "properties": {
+          "name": {
+            "description": "导入后云机名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.SetAndroidContainerIpReq": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "ip": {
+            "description": "云机要设置的IP，例如192.168.100.100",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "ip"
+        ],
+        "type": "object",
+        "x-sort": "25"
+      },
+      "myt-sdk-go.api.android.v1.SetAndroidContainerIpRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.MoveAndroidContainerReq": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "indexNum": {
+            "description": "目标实例序号，P1范围1-24，Q1范围1-12",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "start": {
+            "default": false,
+            "description": "移动完成后开机，默认不开机",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.MoveAndroidContainerRes": {
         "properties": {},
         "type": "object"
       },
       "myt-sdk-go.api.android.v1.GetPhoneModelReq": {
         "properties": {},
         "type": "object",
-        "x-sort": "20"
+        "x-sort": "24"
       },
       "myt-sdk-go.api.android.v1.GetPhoneModelRes": {
         "properties": {
@@ -1006,6 +1199,11 @@
         "properties": {
           "id": {
             "description": "机型ID",
+            "format": "string",
+            "type": "string"
+          },
+          "android_version": {
+            "description": "安卓大版本号",
             "format": "string",
             "type": "string"
           },
@@ -1045,7 +1243,7 @@
       "myt-sdk-go.api.android.v1.AndroidPruneAllImagesReq": {
         "properties": {},
         "type": "object",
-        "x-sort": "31"
+        "x-sort": "33"
       },
       "myt-sdk-go.api.android.v1.AndroidPruneAllImagesRes": {
         "properties": {
@@ -1098,7 +1296,7 @@
           "newName"
         ],
         "type": "object",
-        "x-sort": "24"
+        "x-sort": "26"
       },
       "myt-sdk-go.api.android.v1.RenameAndroidContainerRes": {
         "properties": {},
@@ -1175,31 +1373,6 @@
             "format": "string",
             "type": "string"
           },
-          "offset": {
-            "description": "云机的开机时间",
-            "format": "string",
-            "type": "string"
-          },
-          "doboxFps": {
-            "description": "云机FPS",
-            "format": "string",
-            "type": "string"
-          },
-          "doboxWidth": {
-            "description": "云机分辨率的宽",
-            "format": "string",
-            "type": "string"
-          },
-          "doboxHeight": {
-            "description": "云机分辨率的高",
-            "format": "string",
-            "type": "string"
-          },
-          "doboxDpi": {
-            "description": "云机DPI",
-            "format": "string",
-            "type": "string"
-          },
           "macVlanIp": {
             "description": "独立IP设置",
             "format": "string",
@@ -1227,54 +1400,6 @@
             "enum": [
               0,
               1
-            ],
-            "format": "string",
-            "type": "string"
-          },
-          "latitude": {
-            "default": 0,
-            "description": "纬度",
-            "format": "float64",
-            "type": "number"
-          },
-          "longitude": {
-            "default": 0,
-            "description": "经度",
-            "format": "float64",
-            "type": "number"
-          },
-          "countryCode": {
-            "description": "国家代码，例如CN，US",
-            "format": "string",
-            "type": "string"
-          },
-          "s5User": {
-            "description": "s5的用户名",
-            "format": "string",
-            "type": "string"
-          },
-          "s5Password": {
-            "description": "s5的密码",
-            "format": "string",
-            "type": "string"
-          },
-          "s5IP": {
-            "description": "s5的IP",
-            "format": "string",
-            "type": "string"
-          },
-          "s5Port": {
-            "description": "s5的端口",
-            "format": "string",
-            "type": "string"
-          },
-          "s5Type": {
-            "default": "0",
-            "description": "代理类型，0-不开启代理，1-本地域名解析，2-服务器域名解析",
-            "enum": [
-              0,
-              1,
-              2
             ],
             "format": "string",
             "type": "string"
@@ -1353,6 +1478,12 @@
             "description": "随机系统文件名",
             "format": "bool",
             "type": "boolean"
+          },
+          "enforce": {
+            "default": true,
+            "description": "安全模式，默认开启",
+            "format": "bool",
+            "type": "boolean"
           }
         },
         "required": [
@@ -1419,6 +1550,67 @@
       },
       "myt-sdk-go.api.android.v1.SwitchAndroidPhoneModelRes": {
         "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.TaskStatusReq": {
+        "properties": {
+          "taskId": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "taskId"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.android.v1.TaskStatusRes": {
+        "properties": {
+          "taskId": {
+            "format": "string",
+            "type": "string"
+          },
+          "status": {
+            "format": "string",
+            "type": "string"
+          },
+          "image": {
+            "format": "string",
+            "type": "string"
+          },
+          "total": {
+            "format": "int",
+            "type": "integer"
+          },
+          "processed": {
+            "format": "int",
+            "type": "integer"
+          },
+          "successNames": {
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "failedMap": {
+            "additionalProperties": {
+              "format": "string",
+              "type": "string"
+            },
+            "format": "map[string]string",
+            "type": "object"
+          },
+          "startTime": {
+            "format": "time.Time",
+            "type": "string"
+          },
+          "endTime": {
+            "format": "time.Time",
+            "type": "string"
+          }
+        },
         "type": "object"
       },
       "myt-sdk-go.api.androidV2.v1.CreateAndroidContainerV2Req": {
@@ -1497,6 +1689,49 @@
             "description": "添加的魔云腾VPC节点ID",
             "format": "int",
             "type": "integer"
+          },
+          "portMappings": {
+            "description": "增加自定义端口映射",
+            "format": "EmbeddedStructDefinition",
+            "items": {
+              "properties": {
+                "containerPort": {
+                  "default": 0,
+                  "description": "容器内端口，如 80",
+                  "format": "int",
+                  "type": "integer"
+                },
+                "hostPort": {
+                  "default": 0,
+                  "description": "主机端口，如 8080",
+                  "format": "int",
+                  "type": "integer"
+                },
+                "hostIP": {
+                  "description": "主机IP，如 0.0.0.0 或 不填",
+                  "format": "string",
+                  "type": "string"
+                },
+                "protocol": {
+                  "default": "tcp",
+                  "description": "协议，如 tcp、udp, 默认tcp",
+                  "format": "string",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "mytBridgeName": {
+            "description": "myt_bridge网卡名，可以接口查询或在设备终端使用ifconfig查询",
+            "format": "string",
+            "type": "string"
+          },
+          "rpaPort": {
+            "description": "RPA端口，例如8080，不传则不设置",
+            "format": "int",
+            "type": "integer"
           }
         },
         "required": [
@@ -1522,6 +1757,12 @@
             "description": "云机名称",
             "format": "string",
             "type": "string"
+          },
+          "start": {
+            "default": true,
+            "description": "重置完成开机，默认开机",
+            "format": "bool",
+            "type": "boolean"
           }
         },
         "required": [
@@ -1530,6 +1771,248 @@
         "type": "object"
       },
       "myt-sdk-go.api.androidV2.v1.ResetAndroidContainerV2Res": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ChangeImageReq": {
+        "properties": {
+          "containerNames": {
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "image": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "containerNames",
+          "image"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ChangeImageRes": {
+        "properties": {
+          "taskId": {
+            "format": "string",
+            "type": "string"
+          },
+          "message": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.AndroidContainerV2CopyReq": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "indexNum": {
+            "description": "实例序号，P1范围1-24，Q1范围1-12，要复制到的目标实例号",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "count": {
+            "description": "复制的数量，一次最大20个",
+            "format": "int",
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.AndroidContainerV2CopyRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2Req": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2Res": {
+        "properties": {
+          "exportName": {
+            "description": "导出文件名",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2ToOssReq": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "ossUrl": {
+            "description": "共享存储地址",
+            "format": "string",
+            "type": "string"
+          },
+          "bucket": {
+            "description": "存储桶名称",
+            "format": "string",
+            "type": "string"
+          },
+          "filePath": {
+            "description": "文件存储路径",
+            "format": "string",
+            "type": "string"
+          },
+          "accessKey": {
+            "description": "访问密钥",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "ossUrl",
+          "bucket"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2ToOssRes": {
+        "properties": {
+          "url": {
+            "description": "备份文件下载地址",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2Req": {
+        "properties": {
+          "file": {
+            "description": "导入V2导出的云机备份",
+            "format": "*ghttp.UploadFile",
+            "type": "file"
+          },
+          "indexNum": {
+            "description": "实例序号，0=自动分配",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "description": "导入后云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "start": {
+            "default": true,
+            "description": "导入完成开机，默认开机",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2Res": {
+        "properties": {
+          "name": {
+            "description": "导入后云机名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2ByUrlReq": {
+        "properties": {
+          "url": {
+            "description": "备份包直链地址",
+            "format": "string",
+            "type": "string"
+          },
+          "indexNum": {
+            "description": "实例序号，0=自动分配",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "description": "导入后云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "start": {
+            "default": true,
+            "description": "导入完成开机，默认开机",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "url"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2ByUrlRes": {
+        "properties": {
+          "name": {
+            "description": "导入后云机名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.MoveAndroidContainerV2Req": {
+        "properties": {
+          "name": {
+            "description": "云机名称",
+            "format": "string",
+            "type": "string"
+          },
+          "indexNum": {
+            "description": "目标实例序号，P1范围1-24，Q1范围1-12",
+            "format": "int",
+            "maximum": 24,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "start": {
+            "default": false,
+            "description": "移动完成后开机，默认不开机",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.androidV2.v1.MoveAndroidContainerV2Res": {
         "properties": {},
         "type": "object"
       },
@@ -1605,6 +2088,44 @@
             "maximum": 65535,
             "minimum": 0,
             "type": "integer"
+          },
+          "portMappings": {
+            "description": "增加自定义端口映射",
+            "format": "EmbeddedStructDefinition",
+            "items": {
+              "properties": {
+                "containerPort": {
+                  "default": 0,
+                  "description": "容器内端口，如 80",
+                  "format": "int",
+                  "type": "integer"
+                },
+                "hostPort": {
+                  "default": 0,
+                  "description": "主机端口，如 8080",
+                  "format": "int",
+                  "type": "integer"
+                },
+                "hostIP": {
+                  "description": "主机IP，如 0.0.0.0 或 不填",
+                  "format": "string",
+                  "type": "string"
+                },
+                "protocol": {
+                  "default": "tcp",
+                  "description": "协议，如 tcp、udp, 默认tcp",
+                  "format": "string",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "mytBridgeName": {
+            "description": "myt_bridge网卡名，可以接口查询或在设备终端使用ifconfig查询",
+            "format": "string",
+            "type": "string"
           }
         },
         "required": [
@@ -1709,6 +2230,11 @@
             "description": "备份压缩包大小",
             "format": "string",
             "type": "string"
+          },
+          "mtimestamp": {
+            "description": "时间戳",
+            "format": "int64",
+            "type": "integer"
           }
         },
         "type": "object"
@@ -1857,6 +2383,15 @@
           },
           "netWork_eth0": {
             "description": "ETH0网卡",
+            "format": "string",
+            "type": "string"
+          },
+          "rk182x": {
+            "format": "string",
+            "type": "string"
+          },
+          "houmoM50": {
+            "description": "后摩M50算力卡",
             "format": "string",
             "type": "string"
           }
@@ -2183,6 +2718,244 @@
         },
         "type": "object"
       },
+      "myt-sdk-go.api.mytAi.v1.M50GetDdrReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetDdrRes": {
+        "properties": {
+          "total_size_bytes": {
+            "description": "DDR总容量(字节)",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "chip_quantity": {
+            "description": "DDR芯片数量",
+            "format": "int",
+            "type": "integer"
+          },
+          "chip_capacity_gb": {
+            "description": "单颗DDR芯片容量(GB)",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetDeviceReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetDeviceRes": {
+        "properties": {
+          "core_count": {
+            "description": "IPU核心数量",
+            "format": "int",
+            "type": "integer"
+          },
+          "bdf": {
+            "description": "PCIe BDF地址",
+            "format": "string",
+            "type": "string"
+          },
+          "pcie_bandwidth": {
+            "description": "PCIe链路带宽",
+            "format": "string",
+            "type": "string"
+          },
+          "serial_number": {
+            "description": "设备序列号",
+            "format": "string",
+            "type": "string"
+          },
+          "part_number": {
+            "description": "设备料号",
+            "format": "string",
+            "type": "string"
+          },
+          "device_name": {
+            "description": "设备型号名称",
+            "format": "string",
+            "type": "string"
+          },
+          "firmware_version": {
+            "description": "固件版本",
+            "format": "string",
+            "type": "string"
+          },
+          "vendor_id": {
+            "description": "厂商ID",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetDvfsReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetDvfsRes": {
+        "properties": {
+          "mode": {
+            "description": "DVFS模式编号",
+            "format": "int",
+            "type": "integer"
+          },
+          "mode_name": {
+            "description": "模式名称",
+            "format": "string",
+            "type": "string"
+          },
+          "mode_str": {
+            "description": "模式字符串",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50SetDvfsReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          },
+          "mode": {
+            "description": "DVFS模式 (0=performance,1=ondemand,2=userspace,3=independent)",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "mode"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50SetDvfsRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetFrequencyReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetFrequencyRes": {
+        "properties": {
+          "ipu_frequency": {
+            "description": "IPU频率(Hz)",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "cpu_frequency": {
+            "description": "CPU频率(Hz)",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "ddr_frequency": {
+            "description": "DDR频率(Hz)",
+            "format": "uint64",
+            "type": "integer"
+          },
+          "noc_frequency": {
+            "description": "NOC频率(Hz)",
+            "format": "uint64",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50SetFrequencyReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          },
+          "type": {
+            "description": "频率类型",
+            "enum": [
+              "ipu",
+              "cpu",
+              "ddr",
+              "noc"
+            ],
+            "format": "string",
+            "type": "string"
+          },
+          "frequency": {
+            "description": "目标频率(Hz)",
+            "format": "uint64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "type",
+          "frequency"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50SetFrequencyRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetPowerReq": {
+        "properties": {
+          "device_id": {
+            "default": 0,
+            "description": "设备ID",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.M50GetPowerRes": {
+        "properties": {
+          "board_power_w": {
+            "description": "板卡功耗(瓦特)",
+            "format": "float64",
+            "type": "number"
+          },
+          "ipu_voltage_mv": {
+            "description": "IPU电压(毫伏)",
+            "format": "float64",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
       "myt-sdk-go.api.mytAi.v1.GetModelStatusReq": {
         "properties": {},
         "type": "object"
@@ -2240,10 +3013,9 @@
       "myt-sdk-go.api.mytAi.v1.ResetDeviceReq": {
         "properties": {
           "type": {
-            "description": "重置类型 (hw:硬件, sw:软件)",
+            "description": "重置类型 (hw:硬件)",
             "enum": [
-              "hw",
-              "sw"
+              "hw"
             ],
             "format": "string",
             "type": "string"
@@ -2938,6 +3710,520 @@
         "properties": {},
         "type": "object"
       },
+      "myt-sdk-go.api.mytIscsi.v1.CleanupIscsiReq": {
+        "properties": {
+          "portal": {
+            "description": "Target地址",
+            "format": "string",
+            "type": "string"
+          },
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          },
+          "force": {
+            "description": "强制清理（即使有进程占用挂载点）",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "portal",
+          "iqn"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.CleanupIscsiRes": {
+        "properties": {
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.CreateDiskImageReq": {
+        "properties": {
+          "portal": {
+            "description": "Target管理地址，例如192.168.1.100:9000",
+            "format": "string",
+            "type": "string"
+          },
+          "name": {
+            "description": "映像名称，例如disk1",
+            "format": "string",
+            "type": "string"
+          },
+          "size": {
+            "description": "映像大小，单位GB",
+            "format": "int64",
+            "type": "integer"
+          },
+          "type": {
+            "description": "映像类型：fixed=固定大小，thin=动态扩展",
+            "enum": [
+              "fixed",
+              "thin"
+            ],
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "portal",
+          "name",
+          "size",
+          "type"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.CreateDiskImageRes": {
+        "properties": {
+          "iqn": {
+            "description": "创建后对应的Target IQN",
+            "format": "string",
+            "type": "string"
+          },
+          "lun": {
+            "description": "LUN编号",
+            "format": "int",
+            "type": "integer"
+          },
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.DeleteDiskImageReq": {
+        "properties": {
+          "portal": {
+            "description": "Target管理地址，例如192.168.1.100:9000",
+            "format": "string",
+            "type": "string"
+          },
+          "name": {
+            "description": "映像名称",
+            "format": "string",
+            "type": "string"
+          },
+          "force": {
+            "description": "强制删除（先强制清理本设备的iSCSI session）",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "portal",
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.DeleteDiskImageRes": {
+        "properties": {
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.DiscoverIscsiReq": {
+        "properties": {
+          "portal": {
+            "description": "Target地址，例如192.168.1.100:3260",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "portal"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.DiscoverIscsiRes": {
+        "properties": {
+          "targets": {
+            "description": "发现的Target列表",
+            "format": "[]v1.TargetInfo",
+            "items": {
+              "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.TargetInfo",
+              "description": ""
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.TargetInfo": {
+        "properties": {
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          },
+          "portal": {
+            "description": "Target地址",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.FormatIscsiReq": {
+        "properties": {
+          "partition": {
+            "description": "分区设备路径，例如/dev/sdX1",
+            "format": "string",
+            "type": "string"
+          },
+          "fsType": {
+            "description": "文件系统类型，例如ext4、xfs",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "partition",
+          "fsType"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.FormatIscsiRes": {
+        "properties": {
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.ListIscsiReq": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.ListIscsiRes": {
+        "properties": {
+          "sessions": {
+            "description": "已挂载的会话列表",
+            "format": "[]v1.SessionInfo",
+            "items": {
+              "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.SessionInfo",
+              "description": ""
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.SessionInfo": {
+        "properties": {
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          },
+          "portal": {
+            "description": "Target地址",
+            "format": "string",
+            "type": "string"
+          },
+          "device": {
+            "description": "块设备路径",
+            "format": "string",
+            "type": "string"
+          },
+          "localIP": {
+            "description": "本地网卡IP",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.ListNicReq": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.ListNicRes": {
+        "properties": {
+          "nics": {
+            "description": "网卡列表",
+            "format": "[]v1.NicInfo",
+            "items": {
+              "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.NicInfo",
+              "description": ""
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.NicInfo": {
+        "properties": {
+          "name": {
+            "description": "网卡名称",
+            "format": "string",
+            "type": "string"
+          },
+          "ip": {
+            "description": "IP地址",
+            "format": "string",
+            "type": "string"
+          },
+          "mac": {
+            "description": "MAC地址",
+            "format": "string",
+            "type": "string"
+          },
+          "isUp": {
+            "description": "是否启用",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.LoginIscsiReq": {
+        "properties": {
+          "portal": {
+            "description": "Target地址，例如192.168.1.100:3260",
+            "format": "string",
+            "type": "string"
+          },
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          },
+          "localIP": {
+            "description": "指定本地网卡IP，为空则自动选择",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "portal",
+          "iqn"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.LoginIscsiRes": {
+        "properties": {
+          "device": {
+            "description": "挂载后的块设备路径，例如/dev/sdX",
+            "format": "string",
+            "type": "string"
+          },
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.LogoutIscsiReq": {
+        "properties": {
+          "portal": {
+            "description": "Target地址",
+            "format": "string",
+            "type": "string"
+          },
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "portal",
+          "iqn"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.LogoutIscsiRes": {
+        "properties": {
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.MountIscsiReq": {
+        "properties": {
+          "portal": {
+            "description": "Target地址",
+            "format": "string",
+            "type": "string"
+          },
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          },
+          "localIP": {
+            "description": "指定本地网卡IP",
+            "format": "string",
+            "type": "string"
+          },
+          "autoInit": {
+            "description": "是否自动分区格式化（首次挂载时）",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "portal",
+          "iqn"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.MountIscsiRes": {
+        "properties": {
+          "device": {
+            "description": "块设备路径",
+            "format": "string",
+            "type": "string"
+          },
+          "mountPoint": {
+            "description": "挂载点路径",
+            "format": "string",
+            "type": "string"
+          },
+          "storageMode": {
+            "description": "当前存储模式：local/iscsi",
+            "format": "string",
+            "type": "string"
+          },
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.PartitionIscsiReq": {
+        "properties": {
+          "device": {
+            "description": "块设备路径，例如/dev/sdX",
+            "format": "string",
+            "type": "string"
+          },
+          "label": {
+            "default": "gpt",
+            "description": "分区表类型：gpt或msdos",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "device"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.PartitionIscsiRes": {
+        "properties": {
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          },
+          "parts": {
+            "description": "分区设备路径列表",
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.GetIscsiStatusReq": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.GetIscsiStatusRes": {
+        "properties": {
+          "storageMode": {
+            "description": "当前存储模式：local/iscsi",
+            "format": "string",
+            "type": "string"
+          },
+          "mountPoint": {
+            "description": "挂载点路径，未挂载为空",
+            "format": "string",
+            "type": "string"
+          },
+          "device": {
+            "description": "块设备路径，未挂载为空",
+            "format": "string",
+            "type": "string"
+          },
+          "isMounted": {
+            "description": "是否已挂载",
+            "format": "bool",
+            "type": "boolean"
+          },
+          "totalMB": {
+            "description": "磁盘总容量(MB)",
+            "format": "int64",
+            "type": "integer"
+          },
+          "usedMB": {
+            "description": "已用容量(MB)",
+            "format": "int64",
+            "type": "integer"
+          },
+          "availMB": {
+            "description": "可用容量(MB)",
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.UmountIscsiReq": {
+        "properties": {
+          "portal": {
+            "description": "Target地址",
+            "format": "string",
+            "type": "string"
+          },
+          "iqn": {
+            "description": "Target IQN标识",
+            "format": "string",
+            "type": "string"
+          },
+          "force": {
+            "description": "强制卸载（即使有进程占用）",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "portal",
+          "iqn"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytIscsi.v1.UmountIscsiRes": {
+        "properties": {
+          "storageMode": {
+            "description": "当前存储模式：local/iscsi",
+            "format": "string",
+            "type": "string"
+          },
+          "success": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
       "myt-sdk-go.api.mytVpc.v1.DeleteVpcReq": {
         "properties": {
           "vpcID": {
@@ -2952,6 +4238,213 @@
         "type": "object"
       },
       "myt-sdk-go.api.mytVpc.v1.DeleteVpcRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.UpdateVpcReq": {
+        "properties": {
+          "vpcID": {
+            "description": "VPC节点ID",
+            "format": "int",
+            "type": "integer"
+          },
+          "remarks": {
+            "description": "新的节点别名",
+            "format": "string",
+            "type": "string"
+          },
+          "profile": {
+            "$ref": "#/components/schemas/myt-sdk-go.pkg.proxylink.model.ProfileItem",
+            "description": "新的节点配置，修改后自动重新生成xray配置并同步到云机"
+          }
+        },
+        "required": [
+          "vpcID"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.pkg.proxylink.model.ProfileItem": {
+        "properties": {
+          "configType": {
+            "format": "model.ConfigType",
+            "type": "integer"
+          },
+          "subscriptionId": {
+            "format": "string",
+            "type": "string"
+          },
+          "remarks": {
+            "format": "string",
+            "type": "string"
+          },
+          "server": {
+            "format": "string",
+            "type": "string"
+          },
+          "serverPort": {
+            "format": "string",
+            "type": "string"
+          },
+          "password": {
+            "format": "string",
+            "type": "string"
+          },
+          "method": {
+            "format": "string",
+            "type": "string"
+          },
+          "flow": {
+            "format": "string",
+            "type": "string"
+          },
+          "username": {
+            "format": "string",
+            "type": "string"
+          },
+          "alterId": {
+            "format": "int",
+            "type": "integer"
+          },
+          "network": {
+            "format": "string",
+            "type": "string"
+          },
+          "headerType": {
+            "format": "string",
+            "type": "string"
+          },
+          "host": {
+            "format": "string",
+            "type": "string"
+          },
+          "path": {
+            "format": "string",
+            "type": "string"
+          },
+          "seed": {
+            "format": "string",
+            "type": "string"
+          },
+          "quicSecurity": {
+            "format": "string",
+            "type": "string"
+          },
+          "quicKey": {
+            "format": "string",
+            "type": "string"
+          },
+          "mode": {
+            "format": "string",
+            "type": "string"
+          },
+          "serviceName": {
+            "format": "string",
+            "type": "string"
+          },
+          "authority": {
+            "format": "string",
+            "type": "string"
+          },
+          "xhttpMode": {
+            "format": "string",
+            "type": "string"
+          },
+          "xhttpExtra": {
+            "format": "string",
+            "type": "string"
+          },
+          "security": {
+            "format": "string",
+            "type": "string"
+          },
+          "sni": {
+            "format": "string",
+            "type": "string"
+          },
+          "alpn": {
+            "format": "string",
+            "type": "string"
+          },
+          "fingerprint": {
+            "format": "string",
+            "type": "string"
+          },
+          "insecure": {
+            "format": "bool",
+            "type": "boolean"
+          },
+          "mldsa65Verify": {
+            "format": "string",
+            "type": "string"
+          },
+          "publicKey": {
+            "format": "string",
+            "type": "string"
+          },
+          "shortId": {
+            "format": "string",
+            "type": "string"
+          },
+          "spiderX": {
+            "format": "string",
+            "type": "string"
+          },
+          "secretKey": {
+            "format": "string",
+            "type": "string"
+          },
+          "preSharedKey": {
+            "format": "string",
+            "type": "string"
+          },
+          "localAddress": {
+            "format": "string",
+            "type": "string"
+          },
+          "reserved": {
+            "format": "string",
+            "type": "string"
+          },
+          "mtu": {
+            "format": "int",
+            "type": "integer"
+          },
+          "obfsPassword": {
+            "format": "string",
+            "type": "string"
+          },
+          "portHopping": {
+            "format": "string",
+            "type": "string"
+          },
+          "portHoppingInterval": {
+            "format": "string",
+            "type": "string"
+          },
+          "pinSHA256": {
+            "format": "string",
+            "type": "string"
+          },
+          "bandwidthDown": {
+            "format": "string",
+            "type": "string"
+          },
+          "bandwidthUp": {
+            "format": "string",
+            "type": "string"
+          },
+          "remoteDNS": {
+            "format": "bool",
+            "type": "boolean"
+          },
+          "caCert": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.UpdateVpcRes": {
         "properties": {},
         "type": "object"
       },
@@ -3124,6 +4617,192 @@
         "type": "object"
       },
       "myt-sdk-go.api.mytVpc.v1.ContainerDeleteRuleBatchRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.DeleteContainerDomainDirectReq": {
+        "properties": {
+          "containerID": {
+            "description": "容器ID或名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "containerID"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.DeleteContainerDomainDirectRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.GetContainerDomainDirectReq": {
+        "properties": {
+          "containerID": {
+            "description": "容器ID或名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "containerID"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.GetContainerDomainDirectRes": {
+        "properties": {
+          "domains": {
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.SetContainerDomainDirectReq": {
+        "properties": {
+          "containerID": {
+            "description": "容器ID或名称",
+            "format": "string",
+            "type": "string"
+          },
+          "domains": {
+            "description": "域名列表，传空数组则清空",
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "containerID",
+          "domains"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.SetContainerDomainDirectRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.DeleteContainerDomainFilterReq": {
+        "properties": {
+          "containerID": {
+            "description": "容器ID或名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "containerID"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.DeleteContainerDomainFilterRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.GetContainerDomainFilterReq": {
+        "properties": {
+          "containerID": {
+            "description": "容器ID或名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "containerID"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.GetContainerDomainFilterRes": {
+        "properties": {
+          "domains": {
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.SetContainerDomainFilterReq": {
+        "properties": {
+          "containerID": {
+            "description": "容器ID或名称",
+            "format": "string",
+            "type": "string"
+          },
+          "domains": {
+            "description": "域名列表，传空数组则清空",
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "containerID",
+          "domains"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.SetContainerDomainFilterRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.DeleteGlobalDomainFilterReq": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.DeleteGlobalDomainFilterRes": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.GetGlobalDomainFilterReq": {
+        "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.GetGlobalDomainFilterRes": {
+        "properties": {
+          "domains": {
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.SetGlobalDomainFilterReq": {
+        "properties": {
+          "domains": {
+            "description": "域名列表，支持 domain:/full:/keyword:/regexp: 前缀，传空数组则清空",
+            "format": "[]string",
+            "items": {
+              "format": "string",
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "domains"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytVpc.v1.SetGlobalDomainFilterRes": {
         "properties": {},
         "type": "object"
       },
@@ -3507,6 +5186,11 @@
             "description": "机型文件名称",
             "format": "string",
             "type": "string"
+          },
+          "mtimestamp": {
+            "description": "时间戳",
+            "format": "int64",
+            "type": "integer"
           }
         },
         "type": "object"
@@ -3540,6 +5224,557 @@
       },
       "myt-sdk-go.api.phoneModel.v1.ImportLocalPhoneModelRes": {
         "properties": {},
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaCheckReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaCheckRes": {
+        "properties": {
+          "alive": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaClickReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "x": {
+            "description": "X坐标",
+            "format": "int",
+            "type": "integer"
+          },
+          "y": {
+            "description": "Y坐标",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaClickRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaConnectReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaConnectRes": {
+        "properties": {
+          "connected": {
+            "format": "bool",
+            "type": "boolean"
+          },
+          "ip": {
+            "format": "string",
+            "type": "string"
+          },
+          "port": {
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaDisconnectReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaDisconnectRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaDoubleClickReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "x": {
+            "description": "X坐标",
+            "format": "int",
+            "type": "integer"
+          },
+          "y": {
+            "description": "Y坐标",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaDoubleClickRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaDumpUIReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaDumpUIRes": {
+        "properties": {
+          "xml": {
+            "description": "UI节点树XML",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaIsScreenOnReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaIsScreenOnRes": {
+        "properties": {
+          "on": {
+            "format": "bool",
+            "type": "boolean"
+          },
+          "size": {
+            "description": "截图字节数",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaKeyReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "code": {
+            "description": "按键码: HOME=3, BACK=4, RECENT=187",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "code"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaKeyRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaLongPressReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "x": {
+            "description": "X坐标",
+            "format": "int",
+            "type": "integer"
+          },
+          "y": {
+            "description": "Y坐标",
+            "format": "int",
+            "type": "integer"
+          },
+          "duration": {
+            "description": "长按时长ms",
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "x",
+          "y",
+          "duration"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaLongPressRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaOpenAppReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "pkg": {
+            "description": "包名",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "pkg"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaOpenAppRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaRotationReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaRotationRes": {
+        "properties": {
+          "rotation": {
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaScreenshotReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "quality": {
+            "default": 50,
+            "description": "质量1-100",
+            "format": "int",
+            "type": "integer"
+          },
+          "forVlm": {
+            "description": "VLM友好模式(缩放到540px)",
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaScreenshotRes": {
+        "properties": {
+          "imageBase64": {
+            "description": "base64图片",
+            "format": "string",
+            "type": "string"
+          },
+          "w": {
+            "description": "宽",
+            "format": "int",
+            "type": "integer"
+          },
+          "h": {
+            "description": "高",
+            "format": "int",
+            "type": "integer"
+          },
+          "size": {
+            "description": "base64字节数",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaShellReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "cmd": {
+            "description": "Shell命令",
+            "format": "string",
+            "type": "string"
+          },
+          "timeout": {
+            "default": 30,
+            "description": "超时秒数",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "cmd"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaShellRes": {
+        "properties": {
+          "output": {
+            "format": "string",
+            "type": "string"
+          },
+          "exitCode": {
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaStopAppReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "pkg": {
+            "description": "包名",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "pkg"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaStopAppRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaSwipeReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "x1": {
+            "description": "起点X",
+            "format": "int",
+            "type": "integer"
+          },
+          "y1": {
+            "description": "起点Y",
+            "format": "int",
+            "type": "integer"
+          },
+          "x2": {
+            "description": "终点X",
+            "format": "int",
+            "type": "integer"
+          },
+          "y2": {
+            "description": "终点Y",
+            "format": "int",
+            "type": "integer"
+          },
+          "duration": {
+            "default": 300,
+            "description": "滑动时长ms",
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "x1",
+          "y1",
+          "x2",
+          "y2"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaSwipeRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaTouchReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "action": {
+            "description": "动作: down/move/up",
+            "format": "string",
+            "type": "string"
+          },
+          "touchId": {
+            "default": 0,
+            "description": "触控点ID",
+            "format": "int",
+            "type": "integer"
+          },
+          "x": {
+            "description": "X坐标",
+            "format": "int",
+            "type": "integer"
+          },
+          "y": {
+            "description": "Y坐标",
+            "format": "int",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "action",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaTouchRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaTypeReq": {
+        "properties": {
+          "name": {
+            "description": "云机容器名称",
+            "format": "string",
+            "type": "string"
+          },
+          "text": {
+            "description": "要输入的文本",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "text"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.rpa.v1.RpaTypeRes": {
+        "properties": {
+          "ok": {
+            "format": "bool",
+            "type": "boolean"
+          }
+        },
         "type": "object"
       },
       "myt-sdk-go.api.server.v1.RebootDeviceReq": {
@@ -3634,6 +5869,48 @@
         "properties": {},
         "type": "object"
       },
+      "myt-sdk-go.api.user.v1.LoginMytReq": {
+        "properties": {
+          "name": {
+            "format": "string",
+            "type": "string"
+          },
+          "password": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "password"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.user.v1.LoginMytRes": {
+        "properties": {
+          "mytToken": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.user.v1.SyncAuthorizationReq": {
+        "properties": {
+          "mytToken": {
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "mytToken"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.user.v1.SyncAuthorizationRes": {
+        "properties": {},
+        "type": "object"
+      },
       "myt-sdk-go.api.mytAi.v1.ChatCompletionsReq": {
         "properties": {
           "model": {
@@ -3688,7 +5965,8 @@
             "enum": [
               "system",
               "user",
-              "assistant"
+              "assistant",
+              "tool"
             ],
             "format": "string",
             "type": "string"
@@ -3700,8 +5978,7 @@
           }
         },
         "required": [
-          "role",
-          "content"
+          "role"
         ],
         "type": "object"
       },
@@ -3774,6 +6051,101 @@
               }
             },
             "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.EmbeddingsReq": {
+        "properties": {
+          "model": {
+            "description": "模型别名, 如 text-embedding-3-small",
+            "format": "string",
+            "type": "string"
+          },
+          "input": {
+            "$ref": "#/components/schemas/interface",
+            "description": ""
+          },
+          "dimensions": {
+            "description": "返回的向量维度 (仅V3模型支持)",
+            "format": "int",
+            "type": "integer"
+          },
+          "encoding_format": {
+            "default": "float",
+            "description": "返回向量的格式, float 或 base64",
+            "format": "string",
+            "type": "string"
+          }
+        },
+        "required": [
+          "model"
+        ],
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.EmbeddingsRes": {
+        "properties": {
+          "object": {
+            "description": "对象类型，固定为 list",
+            "format": "string",
+            "type": "string"
+          },
+          "data": {
+            "description": "向量数据数组",
+            "format": "[]v1.EmbeddingData",
+            "items": {
+              "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.EmbeddingData",
+              "description": ""
+            },
+            "type": "array"
+          },
+          "model": {
+            "description": "实际使用的模型名称",
+            "format": "string",
+            "type": "string"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.EmbeddingUsage",
+            "description": "Token 消耗统计"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.EmbeddingData": {
+        "properties": {
+          "object": {
+            "description": "对象类型，固定为 embedding",
+            "format": "string",
+            "type": "string"
+          },
+          "index": {
+            "description": "对应输入 Input 数组的索引位置",
+            "format": "int",
+            "type": "integer"
+          },
+          "embedding": {
+            "description": "文本的数学向量表示 (浮点数数组)",
+            "format": "[]float64",
+            "items": {
+              "format": "float64",
+              "type": "number"
+            },
+            "type": "array"
+          }
+        },
+        "type": "object"
+      },
+      "myt-sdk-go.api.mytAi.v1.EmbeddingUsage": {
+        "properties": {
+          "prompt_tokens": {
+            "description": "输入文本消耗的 Token 数",
+            "format": "int",
+            "type": "integer"
+          },
+          "total_tokens": {
+            "description": "总计消耗的 Token 数 (对于向量接口，通常与 prompt_tokens 一致)",
+            "format": "int",
+            "type": "integer"
           }
         },
         "type": "object"
@@ -4433,14 +6805,24 @@
       },
       "x-sort": "19"
     },
-    "/android/phoneModel": {
-      "get": {
+    "/android/importByUrl": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.ImportAndroidContainerByUrlReq",
+                "description": ""
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.GetPhoneModelRes",
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.ImportAndroidContainerByUrlRes",
                   "description": ""
                 }
               }
@@ -4448,13 +6830,46 @@
             "description": ""
           }
         },
-        "summary": "获取机型列表",
+        "summary": "通过URL导入安卓云机",
         "tags": [
           "云机操作"
         ],
         "x-sort": "20"
       },
       "x-sort": "20"
+    },
+    "/android/exportToOss": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.ExportAndroidContainerToOssReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.ExportAndroidContainerToOssRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "导出安卓云机到共享存储",
+        "tags": [
+          "云机操作"
+        ],
+        "x-sort": "21"
+      },
+      "x-sort": "21"
     },
     "/android/countryCode": {
       "get": {
@@ -4475,9 +6890,32 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "21"
+        "x-sort": "23"
       },
-      "x-sort": "21"
+      "x-sort": "23"
+    },
+    "/android/phoneModel": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.GetPhoneModelRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "获取机型列表",
+        "tags": [
+          "云机操作"
+        ],
+        "x-sort": "24"
+      },
+      "x-sort": "24"
     },
     "/android/macvlan": {
       "post": {
@@ -4485,7 +6923,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.SetMacvlanReq",
+                "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.SetAndroidContainerIpReq",
                 "description": ""
               }
             }
@@ -4496,7 +6934,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.SetMacvlanRes",
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.SetAndroidContainerIpRes",
                   "description": ""
                 }
               }
@@ -4504,13 +6942,13 @@
             "description": ""
           }
         },
-        "summary": "设置Macvlan",
+        "summary": "macvlan模式下，设置云机容器的IP",
         "tags": [
           "云机操作"
         ],
-        "x-sort": "22"
+        "x-sort": "25"
       },
-      "x-sort": "22"
+      "x-sort": "25"
     },
     "/android/rename": {
       "post": {
@@ -4541,9 +6979,9 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "24"
+        "x-sort": "26"
       },
-      "x-sort": "24"
+      "x-sort": "26"
     },
     "/android/backup/model": {
       "delete": {
@@ -4577,7 +7015,7 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "26"
+        "x-sort": "28"
       },
       "get": {
         "responses": {
@@ -4597,7 +7035,7 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "25"
+        "x-sort": "27"
       },
       "post": {
         "requestBody": {
@@ -4627,9 +7065,9 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "27"
+        "x-sort": "29"
       },
-      "x-sort": "27"
+      "x-sort": "29"
     },
     "/android/backup/modelExport": {
       "get": {
@@ -4663,9 +7101,9 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "28"
+        "x-sort": "30"
       },
-      "x-sort": "28"
+      "x-sort": "30"
     },
     "/android/backup/modelImport": {
       "post": {
@@ -4696,9 +7134,9 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "29"
+        "x-sort": "31"
       },
-      "x-sort": "29"
+      "x-sort": "31"
     },
     "/android/exec": {
       "post": {
@@ -4729,9 +7167,9 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "30"
+        "x-sort": "32"
       },
-      "x-sort": "30"
+      "x-sort": "32"
     },
     "/android/pruneImages": {
       "post": {
@@ -4762,9 +7200,157 @@
         "tags": [
           "云机操作"
         ],
-        "x-sort": "31"
+        "x-sort": "33"
       },
-      "x-sort": "31"
+      "x-sort": "33"
+    },
+    "/android/change-image": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.ChangeImageReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.ChangeImageRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "批量切换容器镜像",
+        "tags": [
+          "云机操作"
+        ]
+      }
+    },
+    "/android/copy": {
+      "get": {
+        "parameters": [
+          {
+            "description": "云机名称",
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "description": "云机名称",
+              "format": "string",
+              "type": "string"
+            }
+          },
+          {
+            "description": "实例序号，P1范围1-24，Q1范围1-12，要复制到的目标实例号",
+            "in": "query",
+            "name": "indexNum",
+            "schema": {
+              "description": "实例序号，P1范围1-24，Q1范围1-12，要复制到的目标实例号",
+              "format": "int",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "复制的数量，一次最大20个",
+            "in": "query",
+            "name": "count",
+            "schema": {
+              "description": "复制的数量，一次最大20个",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.AndroidContainerCopyRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "复制云机",
+        "tags": [
+          "云机操作"
+        ]
+      }
+    },
+    "/android/move": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.MoveAndroidContainerReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.MoveAndroidContainerRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "移动云机到指定实例位",
+        "tags": [
+          "云机操作"
+        ]
+      }
+    },
+    "/android/task-status": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "taskId",
+            "required": true,
+            "schema": {
+              "format": "string",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.android.v1.TaskStatusRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询指定任务进度",
+        "tags": [
+          "云机操作"
+        ]
+      }
     },
     "/androidV2": {
       "post": {
@@ -4821,6 +7407,246 @@
           }
         },
         "summary": "重置安卓",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/change-image": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ChangeImageReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ChangeImageRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "批量切换容器镜像",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/copy": {
+      "get": {
+        "parameters": [
+          {
+            "description": "云机名称",
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "description": "云机名称",
+              "format": "string",
+              "type": "string"
+            }
+          },
+          {
+            "description": "实例序号，P1范围1-24，Q1范围1-12，要复制到的目标实例号",
+            "in": "query",
+            "name": "indexNum",
+            "schema": {
+              "description": "实例序号，P1范围1-24，Q1范围1-12，要复制到的目标实例号",
+              "format": "int",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "复制的数量，一次最大20个",
+            "in": "query",
+            "name": "count",
+            "schema": {
+              "description": "复制的数量，一次最大20个",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.AndroidContainerV2CopyRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "复制云机",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/export": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2Req",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2Res",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "导出安卓云机V2",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/exportToOss": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2ToOssReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ExportAndroidContainerV2ToOssRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "导出安卓云机V2到共享存储",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/import": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2Req",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2Res",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "导入安卓云机V2",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/importByUrl": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2ByUrlReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.ImportAndroidContainerV2ByUrlRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "通过URL导入安卓云机V2",
+        "tags": [
+          "云机操作V2镜像"
+        ]
+      }
+    },
+    "/androidV2/move": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.MoveAndroidContainerV2Req",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.androidV2.v1.MoveAndroidContainerV2Res",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "移动云机到指定实例位",
         "tags": [
           "云机操作V2镜像"
         ]
@@ -5296,6 +8122,234 @@
         ]
       }
     },
+    "/lm/m50/ddr": {
+      "get": {
+        "parameters": [
+          {
+            "description": "设备ID",
+            "in": "query",
+            "name": "device_id",
+            "schema": {
+              "default": 0,
+              "description": "设备ID",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50GetDdrRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询M50 DDR信息",
+        "tags": [
+          "M50管理"
+        ]
+      }
+    },
+    "/lm/m50/device": {
+      "get": {
+        "parameters": [
+          {
+            "description": "设备ID",
+            "in": "query",
+            "name": "device_id",
+            "schema": {
+              "default": 0,
+              "description": "设备ID",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50GetDeviceRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询M50设备详情",
+        "tags": [
+          "M50管理"
+        ]
+      }
+    },
+    "/lm/m50/dvfs": {
+      "get": {
+        "parameters": [
+          {
+            "description": "设备ID",
+            "in": "query",
+            "name": "device_id",
+            "schema": {
+              "default": 0,
+              "description": "设备ID",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50GetDvfsRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询M50 DVFS模式",
+        "tags": [
+          "M50管理"
+        ]
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50SetDvfsReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50SetDvfsRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "设置M50 DVFS模式",
+        "tags": [
+          "M50管理"
+        ]
+      }
+    },
+    "/lm/m50/frequency": {
+      "get": {
+        "parameters": [
+          {
+            "description": "设备ID",
+            "in": "query",
+            "name": "device_id",
+            "schema": {
+              "default": 0,
+              "description": "设备ID",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50GetFrequencyRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询M50频率",
+        "tags": [
+          "M50管理"
+        ]
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50SetFrequencyReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50SetFrequencyRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "设置M50频率",
+        "tags": [
+          "M50管理"
+        ]
+      }
+    },
+    "/lm/m50/power": {
+      "get": {
+        "parameters": [
+          {
+            "description": "设备ID",
+            "in": "query",
+            "name": "device_id",
+            "schema": {
+              "default": 0,
+              "description": "设备ID",
+              "format": "int",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.M50GetPowerRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询M50功耗/电压",
+        "tags": [
+          "M50管理"
+        ]
+      }
+    },
     "/lm/models": {
       "get": {
         "responses": {
@@ -5650,6 +8704,379 @@
         ]
       }
     },
+    "/mytIscsi/cleanup": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.CleanupIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.CleanupIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "清理iSCSI残留状态（残留session、挂载、node记录）",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/createDiskImage": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.CreateDiskImageReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.CreateDiskImageRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "在Target上创建磁盘映像",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/deleteDiskImage": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.DeleteDiskImageReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.DeleteDiskImageRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "删除Target上的磁盘映像",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/discover": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.DiscoverIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.DiscoverIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "发现iSCSI Target",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/format": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.FormatIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.FormatIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "格式化iSCSI分区",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/list": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.ListIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询已挂载iSCSI磁盘列表",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/listNic": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.ListNicRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "获取设备可用网卡列表",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/login": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.LoginIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.LoginIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "挂载iSCSI磁盘",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/logout": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.LogoutIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.LogoutIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "卸载iSCSI磁盘",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/mount": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.MountIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.MountIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "挂载iSCSI磁盘到系统并切换存储模式",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/partition": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.PartitionIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.PartitionIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "对iSCSI磁盘分区",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/status": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.GetIscsiStatusRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询iSCSI存储状态",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
+    "/mytIscsi/umount": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.UmountIscsiReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytIscsi.v1.UmountIscsiRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "卸载iSCSI磁盘并恢复本地存储模式",
+        "tags": [
+          "iSCSI磁盘管理"
+        ]
+      }
+    },
     "/mytVpc": {
       "delete": {
         "parameters": [
@@ -5679,6 +9106,35 @@
           }
         },
         "summary": "删除网络分组内节点",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "put": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.UpdateVpcReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.UpdateVpcRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "编辑VPC节点",
         "tags": [
           "魔云腾VPC"
         ]
@@ -5824,6 +9280,265 @@
           }
         },
         "summary": "批量清除云机VPC节点",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      }
+    },
+    "/mytVpc/domainDirect": {
+      "delete": {
+        "parameters": [
+          {
+            "description": "容器ID或名称",
+            "in": "query",
+            "name": "containerID",
+            "required": true,
+            "schema": {
+              "description": "容器ID或名称",
+              "format": "string",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.DeleteContainerDomainDirectRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "清除容器域名直连",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "get": {
+        "parameters": [
+          {
+            "description": "容器ID或名称",
+            "in": "query",
+            "name": "containerID",
+            "required": true,
+            "schema": {
+              "description": "容器ID或名称",
+              "format": "string",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.GetContainerDomainDirectRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询容器域名直连",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.SetContainerDomainDirectReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.SetContainerDomainDirectRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "设置容器域名直连",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      }
+    },
+    "/mytVpc/domainFilter": {
+      "delete": {
+        "parameters": [
+          {
+            "description": "容器ID或名称",
+            "in": "query",
+            "name": "containerID",
+            "required": true,
+            "schema": {
+              "description": "容器ID或名称",
+              "format": "string",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.DeleteContainerDomainFilterRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "清除容器域名过滤",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "get": {
+        "parameters": [
+          {
+            "description": "容器ID或名称",
+            "in": "query",
+            "name": "containerID",
+            "required": true,
+            "schema": {
+              "description": "容器ID或名称",
+              "format": "string",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.GetContainerDomainFilterRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询容器域名过滤",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.SetContainerDomainFilterReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.SetContainerDomainFilterRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "设置容器域名过滤",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      }
+    },
+    "/mytVpc/domainFilter/global": {
+      "delete": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.DeleteGlobalDomainFilterRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "清除全局域名过滤",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.GetGlobalDomainFilterRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "查询全局域名过滤",
+        "tags": [
+          "魔云腾VPC"
+        ]
+      },
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.SetGlobalDomainFilterReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytVpc.v1.SetGlobalDomainFilterRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "设置全局域名过滤",
         "tags": [
           "魔云腾VPC"
         ]
@@ -6194,6 +9909,533 @@
         ]
       }
     },
+    "/rpa/check": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaCheckReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaCheckRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "检查RPA连接",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/click": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaClickReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaClickRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "单击",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/connect": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaConnectReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaConnectRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "连接RPA服务",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/disconnect": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaDisconnectReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaDisconnectRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "断开RPA连接",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/double_click": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaDoubleClickReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaDoubleClickRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "双击",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/dump_ui": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaDumpUIReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaDumpUIRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "获取UI节点树",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/is_screen_on": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaIsScreenOnReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaIsScreenOnRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "屏幕是否亮屏",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/key": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaKeyReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaKeyRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "按键",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/long_press": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaLongPressReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaLongPressRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "长按",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/open_app": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaOpenAppReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaOpenAppRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "打开App",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/rotation": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaRotationReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaRotationRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "屏幕旋转角度",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/screenshot": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaScreenshotReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaScreenshotRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "截屏",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/shell": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaShellReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaShellRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "执行Shell命令",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/stop_app": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaStopAppReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaStopAppRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "停止App",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/swipe": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaSwipeReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaSwipeRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "滑动",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/touch": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaTouchReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaTouchRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "多点触控",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
+    "/rpa/type": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaTypeReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.rpa.v1.RpaTypeRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "输入文本",
+        "tags": [
+          "RPA自动化"
+        ]
+      }
+    },
     "/server/device/reboot": {
       "post": {
         "requestBody": {
@@ -6360,6 +10602,69 @@
         ]
       }
     },
+    "/user/loginIn": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.user.v1.LoginMytReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.user.v1.LoginMytRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "登录获取魔云腾Token",
+        "tags": [
+          "用户"
+        ]
+      }
+    },
+    "/user/sync": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mytToken",
+            "required": true,
+            "schema": {
+              "format": "string",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.user.v1.SyncAuthorizationRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "同步授权",
+        "tags": [
+          "用户"
+        ]
+      }
+    },
     "/v1/chat/completions": {
       "post": {
         "requestBody": {
@@ -6386,6 +10691,37 @@
           }
         },
         "summary": "模型推理对话补全",
+        "tags": [
+          "大模型管理"
+        ]
+      }
+    },
+    "/v1/embeddings": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.EmbeddingsReq",
+                "description": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/myt-sdk-go.api.mytAi.v1.EmbeddingsRes",
+                  "description": ""
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "模型文本向量化",
         "tags": [
           "大模型管理"
         ]

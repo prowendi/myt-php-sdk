@@ -18,30 +18,41 @@ final class MultipartBuilder
         $multipart = [];
         $openedResources = [];
 
-        foreach ($payload as $name => $value) {
-            if ($value === null) {
-                continue;
-            }
-
-            if (is_array($value) && self::isMultipartPart($value)) {
-                if (!isset($value['name'])) {
-                    $value['name'] = (string) $name;
+        try {
+            foreach ($payload as $name => $value) {
+                if ($value === null) {
+                    continue;
                 }
-                $multipart[] = $value;
-                continue;
+
+                if (is_array($value) && self::isMultipartPart($value)) {
+                    if (!isset($value['name'])) {
+                        $value['name'] = (string) $name;
+                    }
+                    $multipart[] = $value;
+                    continue;
+                }
+
+                $filename = null;
+                $part = [
+                    'name' => (string) $name,
+                    'contents' => self::normalizeContents($value, $openedResources, $filename),
+                ];
+
+                if ($filename !== null) {
+                    $part['filename'] = $filename;
+                }
+
+                $multipart[] = $part;
+            }
+        } catch (\Throwable $e) {
+            // Avoid leaking any handles already opened before the failure.
+            foreach ($openedResources as $resource) {
+                if (is_resource($resource)) {
+                    fclose($resource);
+                }
             }
 
-            $filename = null;
-            $part = [
-                'name' => (string) $name,
-                'contents' => self::normalizeContents($value, $openedResources, $filename),
-            ];
-
-            if ($filename !== null) {
-                $part['filename'] = $filename;
-            }
-
-            $multipart[] = $part;
+            throw $e;
         }
 
         return [$multipart, $openedResources];

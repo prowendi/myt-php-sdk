@@ -112,4 +112,15 @@ final class LlmService extends AbstractService
     {
         return $this->requestWithJson('POST', '/v1/chat/completions', $body, $options, ['model', 'messages']);
     }
+
+    /**
+     * 模型文本向量化
+     * @param array<string, mixed> $body
+     * @param array<string, mixed> $options
+     * @return array<string, mixed>|string
+     */
+    public function postV1Embeddings(array $body = [], array $options = []): array|string
+    {
+        return $this->requestWithJson('POST', '/v1/embeddings', $body, $options, ['model']);
+    }
 }

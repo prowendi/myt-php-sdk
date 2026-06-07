@@ -2,7 +2,7 @@
 
 基于 `api-1.json` (OpenAPI 3.0) 生成的 PHP Composer SDK。
 
-- 87 个接口方法（按 tag 拆分为 12 个 Service）
+- 150 个接口方法（按 tag 拆分为 16 个 Service）
 - 默认 HTTP 实现为 Guzzle 7
 - 支持自定义 `clientFactory`（适配 Hyperf 协程 Handler）
 - 支持用户自定义连接池（`ConnectionPoolInterface`）
@@ -41,18 +41,22 @@ $created = $sdk->android()->postAndroid([
 
 ## Service 列表
 
-- `$sdk->android()` 云机操作（30）
-- `$sdk->androidV2()` 云机操作V2镜像（3）
+- `$sdk->android()` 云机操作（36）
+- `$sdk->androidV2()` 云机操作V2镜像（10）
 - `$sdk->backup()` 云机备份（3）
 - `$sdk->auth()` 接口认证（2）
 - `$sdk->info()` 基本信息（2）
 - `$sdk->terminal()` 终端（5）
-- `$sdk->llm()` 大模型管理（10）
+- `$sdk->llm()` 大模型管理（11）
+- `$sdk->m50()` M50管理（7）
 - `$sdk->macVlan()` macVlan网卡管理（4）
 - `$sdk->mytBridge()` myt_bridge网卡管理（4）
-- `$sdk->vpc()` 魔云腾VPC（14）
+- `$sdk->iscsi()` iSCSI磁盘管理（13）
+- `$sdk->vpc()` 魔云腾VPC（24）
 - `$sdk->phoneModel()` 本地机型数据管理（4）
+- `$sdk->rpa()` RPA自动化（17）
 - `$sdk->server()` 服务（6）
+- `$sdk->user()` 用户（2）
 
 ## Hyperf 3.1 / Swoole 适配
 
